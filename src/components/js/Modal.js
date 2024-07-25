@@ -1,19 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { createTodo } from "../../api/api";
 import "../css/Modal.css";
 
-const Modal = ({ setTodos, closeModal }) => {
+const Modal = ({ todo, closeModal, onSave }) => {
   const [title, setTitle] = useState("");
   const [memo, setMemo] = useState("");
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    if (todo) {
+      setTitle(todo.title);
+      setMemo(todo.memo);
+    }
+  }, [todo]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setTodos((prevTodos) => [
-      ...prevTodos,
-      { id: Date.now(), title, completed: false },
-    ]);
-    setTitle("");
-    setMemo("");
-    closeModal();
+    try {
+      const updatedTodo = { ...todo, title, memo };
+      await onSave(updatedTodo);
+    } catch (error) {
+      console.error("Error creating todo:", error);
+    }
   };
 
   return (
@@ -36,7 +43,12 @@ const Modal = ({ setTodos, closeModal }) => {
             >
               Memo
             </label>
-            <textarea id="memo"></textarea>
+            <textarea
+              id="memo"
+              value={memo}
+              onChange={(e) => setMemo(e.target.value)}
+              placeholder="Add memo"
+            />
             <div className="modal-buttons">
               <button
                 className="btn btn_warning"

@@ -1,7 +1,7 @@
 import React from "react";
 import TodoItem from "./TodoItem";
 
-const TodoList = ({ todos, setTodos, setEditingTodo }) => {
+const TodoList = ({ todos, setTodos, openModal }) => {
   return (
     <div>
       {todos.map((todo, index) => (
@@ -9,7 +9,7 @@ const TodoList = ({ todos, setTodos, setEditingTodo }) => {
           key={index}
           todo={todo}
           setTodos={setTodos}
-          setEditingTodo={setEditingTodo}
+          openModal={openModal}
         />
       ))}
     </div>

@@ -1,25 +1,33 @@
 import React from "react";
+import { deleteTodo, updateTodo } from "../../api/api";
 import "../css/TodoItem.css";
 
-const TodoItem = ({ todo, setTodos, setEditingTodo }) => {
-  const toggleComplete = () => {
-    setTodos((prevTodos) =>
-      prevTodos.map((t) =>
-        t.id === todo.id ? { ...t, completed: !t.completed } : t
-      )
-    );
+const TodoItem = ({ todo, setTodos, openModal }) => {
+  const toggleComplete = async () => {
+    const updatedTodo = { ...todo, completed: !todo.completed };
+
+    try {
+      await updateTodo(todo.id, updatedTodo);
+      setTodos((prevTodos) =>
+        prevTodos.map((t) => (t.id === todo.id ? updatedTodo : t))
+      );
+    } catch (error) {
+      console.error("Error updating todo:", error);
+    }
   };
 
   const handleEdit = () => {
-    setEditingTodo(todo);
+    openModal(todo);
   };
 
-  const handleDelete = () => {
-    setTodos((prevTodos) => prevTodos.filter((t) => t.id !== todo.id));
+  const handleDelete = async () => {
+    try {
+      await deleteTodo(todo.id);
+      setTodos((prevTodos) => prevTodos.filter((t) => t.id !== todo.id));
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
   };
-
-  // 각 task별 체크박스와 라벨에 고유Id 부여
-  const checkboxId = `chk-${todo.id}`;
 
   return (
     <div className="todo-item">
@@ -28,10 +36,13 @@ const TodoItem = ({ todo, setTodos, setEditingTodo }) => {
           type="checkbox"
           checked={todo.completed}
           onChange={toggleComplete}
-          id={checkboxId}
+          id={`chk-${todo.id}`}
         />
-        <label for={checkboxId}></label>
-        <label for={checkboxId} className={todo.completed ? "completed" : ""}>
+        <label htmlFor={`chk-${todo.id}`}></label>
+        <label
+          htmlFor={`chk-${todo.id}`}
+          className={todo.completed ? "completed" : ""}
+        >
           {todo.title}
         </label>
       </div>

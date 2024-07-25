@@ -1,24 +1,12 @@
-import React, { useState } from "react";
-import Modal from "./Modal.js";
+import React from "react";
 import "../css/AddTodo.css";
 
-const AddTodo = ({ setTodos }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
+const AddTodo = ({ openModal }) => {
   return (
     <div className="add-todo">
-      <button className="add_btn" onClick={openModal}>
+      <button className="add_btn" onClick={() => openModal()}>
         ADD NEW +
       </button>
-      {isModalOpen && <Modal setTodos={setTodos} closeModal={closeModal} />}
     </div>
   );
 };

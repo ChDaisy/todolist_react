@@ -41,6 +41,10 @@ button {
   background-size: cover;
 }
 
+.title_box input:checked + label + label {
+  text-decoration: line-through;
+}
+
 .title_box input + label + label {
   font-size: 12px;
   position: relative;
