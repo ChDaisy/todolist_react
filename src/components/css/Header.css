@@ -1,20 +1,26 @@
 .header {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   height: 50px;
   border-bottom: 1px solid #bee3d9;
 }
 .nav-button {
   color: #bee3d9;
   text-align: center;
+  padding-left: 50px;
+  padding-right: 50px;
   padding-top: 13px;
 }
 .date-day {
+  min-width: 200px;
   font-size: 15px;
   font-weight: normal;
   color: #bee3d9;
   line-height: 30px;
+  text-align: center;
 }
 .date-day .bold {
+  font-size: 16px;
   font-weight: bold;
+  margin-left: 5px;
 }

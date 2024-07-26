@@ -6,6 +6,9 @@
   padding: 5px;
   box-sizing: border-box;
 }
+.btn:focus {
+  outline: none;
+}
 .btn:last-child {
   margin-right: 0;
 }
@@ -17,12 +20,20 @@
 .btn_primary:hover {
   background-color: rgb(183, 217, 207);
 }
+.btn_primary:focus {
+  background-color: rgb(183, 217, 207);
+}
 .btn_warning {
   border: 0.8px solid #bee3d9;
   background-color: #fff;
   color: #bee3d9;
 }
 .btn_warning:hover {
+  border: none;
+  background-color: rgb(183, 217, 207);
+  color: #fff;
+}
+.btn_warning:focus {
   border: none;
   background-color: rgb(183, 217, 207);
   color: #fff;

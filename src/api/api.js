@@ -7,6 +7,14 @@ export const getTodos = async () => {
   return response.data;
 };
 
+export const getTodosByDate = async (date) => {
+  const formattedDate = date.toLocaleDateString("en-CA"); // 'YYYY-MM-DD' 형식으로 포맷
+  const response = await axios.get(`${API_URL}/date`, {
+    params: { date: formattedDate },
+  });
+  return response.data;
+};
+
 export const createTodo = async (todo) => {
   const response = await axios.post(API_URL, todo);
   return response.data;

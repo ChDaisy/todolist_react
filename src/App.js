@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { createTodo, getTodos, updateTodo } from "./api/api";
+import { getTodosByDate, createTodo, updateTodo } from "./api/api";
 
 import Header from "./components/js/Header";
 import TodoList from "./components/js/TodoList";
@@ -11,20 +11,21 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTodo, setEditingTodo] = useState(null);
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  const fetchTodos = async (date) => {
+    try {
+      const todos = await getTodosByDate(date);
+      console.log("todos :", todos);
+      setTodos(todos);
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchTodos = async () => {
-      try {
-        const todos = await getTodos();
-        console.log("todos :", todos);
-        setTodos(todos);
-      } catch (error) {
-        console.error("Error fetching todos:", error);
-      }
-    };
-
-    fetchTodos();
-  }, []);
+    fetchTodos(currentDate);
+  }, [currentDate]);
 
   const openModal = (todo) => {
     setEditingTodo(todo);
@@ -59,9 +60,29 @@ function App() {
     closeModal();
   };
 
+  const handlePrevDay = () => {
+    setCurrentDate((prevDate) => {
+      const newDate = new Date(prevDate);
+      newDate.setDate(newDate.getDate() - 1);
+      return newDate;
+    });
+  };
+
+  const handleNextDay = () => {
+    setCurrentDate((prevDate) => {
+      const newDate = new Date(prevDate);
+      newDate.setDate(newDate.getDate() + 1);
+      return newDate;
+    });
+  };
+
   return (
     <div className="app-container">
-      <Header />
+      <Header
+        currentDate={currentDate}
+        handlePrevDay={handlePrevDay}
+        handleNextDay={handleNextDay}
+      />
       <TodoList todos={todos} setTodos={setTodos} openModal={openModal} />
       <Footer todos={todos} setTodos={setTodos} openModal={openModal} />
       {isModalOpen && (
